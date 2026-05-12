@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0F766E">
+<title>Trail 30 km — 10 oct. 2026</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+:root {
+  --primary:#0F766E;
+  --primary-dark:#115E59;
+  --primary-light:#CCFBF1;
+  --accent:#EA580C;
+  --accent-light:#FED7AA;
+  --bg:#FAFAF9;
+  --card:#FFFFFF;
+  --text:#18181B;
+  --muted:#71717A;
+  --border:#E4E4E7;
+  --success:#16A34A;
+  --danger:#DC2626;
+  --warning:#D97706;
+  --shadow:0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.08);
+  --radius:14px;
+  --radius-sm:10px;
+  --safe-top:env(safe-area-inset-top,0);
+  --safe-bottom:env(safe-area-inset-bottom,0);
+}
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+}
+body { min-height:100vh; min-height:100dvh; padding-bottom:calc(72px + var(--safe-bottom)); }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; font-size: inherit; }
+input, textarea { font-family: inherit; font-size: 16px; }
+
+/* HEADER */
+.app-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: calc(var(--safe-top) + 16px) 20px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: var(--shadow);
+}
+.app-header h1 { font-size: 22px; font-weight: 700; letter-spacing:-0.02em; }
+.app-header .subtitle { font-size: 13px; opacity: 0.85; margin-top: 2px; font-weight:500; }
+.app-header .countdown {
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+.app-header .countdown-number { font-size: 24px; font-weight: 700; line-height:1; }
+
+/* MAIN */
+main { padding: 16px; max-width: 720px; margin: 0 auto; }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+}
+.card-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 10px; }
+.card h2 { font-size: 19px; font-weight: 700; margin-bottom: 8px; letter-spacing:-0.01em; }
+.card h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+.badge.accent { background: var(--accent-light); color: var(--accent); }
+.badge.muted { background: #F4F4F5; color: var(--muted); }
+.badge.success { background: #DCFCE7; color: var(--success); }
+
+.btn {
+  background: var(--primary);
+  color: white;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform .1s, background .15s;
+}
+.btn:active { transform: scale(0.97); }
+.btn.secondary { background: #F4F4F5; color: var(--text); }
+.btn.full { width: 100%; }
+.btn.small { padding: 8px 14px; font-size: 13px; }
+.btn.success { background: var(--success); }
+
+/* TODAY */
+.today-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.today-hero::before {
+  content:"";
+  position: absolute;
+  top:-40px; right:-40px;
+  width: 160px; height: 160px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+.today-hero .day-label { font-size: 13px; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+.today-hero .day-date { font-size: 28px; font-weight: 700; margin: 4px 0 12px; letter-spacing:-0.02em; }
+.today-hero .session-type { font-size: 13px; font-weight: 600; padding: 4px 10px; background: rgba(255,255,255,0.22); border-radius:999px; display:inline-block; margin-bottom:8px; }
+.today-hero .session-detail { font-size: 16px; line-height:1.5; opacity:0.95; }
+.today-hero .week-info { display:flex; gap:10px; margin-top:14px; padding-top:14px; border-top: 1px solid rgba(255,255,255,0.2); font-size:12px; }
+.today-hero .week-info > div { flex: 1; }
+.today-hero .week-info strong { display:block; font-size:18px; font-weight:700; }
+
+.kcal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+.kcal-box { background: #F4F4F5; padding: 10px 8px; border-radius: var(--radius-sm); text-align: center; }
+.kcal-box .label { font-size: 10px; text-transform: uppercase; color: var(--muted); font-weight: 600; letter-spacing:0.05em; }
+.kcal-box .value { font-size: 18px; font-weight: 700; color: var(--text); margin-top: 2px; }
+.kcal-box.highlight { background: var(--primary-light); }
+.kcal-box.highlight .value { color: var(--primary-dark); }
+
+/* PLAN — Phase tabs */
+.phase-tabs { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+.phase-tab {
+  padding: 8px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.phase-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* PLAN — Week card */
+.week-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+.week-card.current { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.week-header-left { flex: 1; }
+.week-num { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.week-title { font-size: 15px; font-weight: 600; margin-top: 2px; }
+.week-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.week-progress { font-size: 12px; color: var(--primary); font-weight: 600; margin-left: 8px; }
+.week-chevron { color: var(--muted); transition: transform .2s; }
+.week-card.open .week-chevron { transform: rotate(180deg); }
+.week-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+.week-card.open .week-body { display: block; }
+
+.session-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #F4F4F5;
+  align-items: flex-start;
+}
+.session-item:last-child { border-bottom: none; }
+.session-checkbox {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: white;
+  transition: all .15s;
+  margin-top: 2px;
+}
+.session-checkbox.checked { background: var(--success); border-color: var(--success); }
+.session-checkbox.checked::after { content:"✓"; color: white; font-size: 14px; font-weight: 700; }
+.session-day { font-weight: 600; font-size: 14px; min-width: 64px; }
+.session-content { flex: 1; }
+.session-type-text { font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 2px; }
+.session-detail-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+.session-item.mma .session-type-text { color: var(--accent); }
+.session-item.rest .session-type-text { color: var(--muted); }
+
+/* PHASES */
+.phase-overview {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border: 1px solid #FDE68A;
+  padding: 14px;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.phase-overview strong { color: #92400E; }
+
+/* NUTRITION */
+.macro-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+.macro-box { background: #F4F4F5; padding: 12px 10px; border-radius: var(--radius-sm); text-align: center; }
+.macro-box .name { font-size: 11px; color: var(--muted); font-weight: 600; }
+.macro-box .num { font-size: 17px; font-weight: 700; margin-top: 3px; }
+.macro-box.p { background: #FEE2E2; } .macro-box.p .num { color: #B91C1C; }
+.macro-box.g { background: #DBEAFE; } .macro-box.g .num { color: #1D4ED8; }
+.macro-box.l { background: #FEF3C7; } .macro-box.l .num { color: #92400E; }
+
+.meal-day {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.meal-day-name { font-weight: 600; font-size: 14px; margin-bottom: 6px; display:flex; justify-content:space-between; }
+.meal-day-name .tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--accent-light); color: var(--accent); font-weight: 600; }
+.meal-row { font-size: 13px; color: var(--text); padding: 3px 0; display: flex; gap: 8px; }
+.meal-row .meal-label { color: var(--muted); min-width: 65px; font-size: 12px; }
+
+/* RECIPES */
+.recipe-filter { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+.recipe-filter button {
+  padding: 7px 13px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.recipe-filter button.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+.recipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.recipe-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  cursor: pointer;
+  transition: transform .1s;
+}
+.recipe-card:active { transform: scale(0.98); }
+.recipe-emoji { font-size: 28px; margin-bottom: 6px; }
+.recipe-name { font-size: 13px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+.recipe-kcal { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.modal {
+  background: var(--bg);
+  width: 100%;
+  max-width: 720px;
+  max-height: 92dvh;
+  border-radius: 20px 20px 0 0;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform .25s cubic-bezier(0.32, 0.72, 0, 1);
+  padding-bottom: calc(20px + var(--safe-bottom));
+}
+.modal-overlay.show .modal { transform: translateY(0); }
+.modal-handle { width: 36px; height: 4px; background: #D4D4D8; border-radius: 999px; margin: 10px auto; }
+.modal-header { padding: 0 20px 14px; display: flex; align-items: flex-start; gap: 12px; }
+.modal-header-content { flex: 1; }
+.modal-header h2 { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; }
+.modal-header .modal-emoji { font-size: 38px; line-height: 1; }
+.modal-close { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size: 18px; }
+.modal-body { padding: 0 20px; }
+.modal-body h3 { font-size: 13px; text-transform: uppercase; letter-spacing:0.06em; color: var(--muted); margin: 18px 0 8px; font-weight: 600; }
+.modal-body ul, .modal-body ol { padding-left: 22px; }
+.modal-body li { font-size: 14px; line-height: 1.55; margin-bottom: 6px; }
+
+/* TRACKING */
+.input-group { margin-bottom: 12px; }
+.input-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.input-group input, .input-group textarea, .input-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  font-size: 16px;
+  transition: border .15s, box-shadow .15s;
+}
+.input-group input:focus, .input-group textarea:focus, .input-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.weight-chart-container { background: var(--card); border-radius: var(--radius); padding: 16px; border: 1px solid var(--border); margin-bottom: 14px; }
+.weight-chart-container h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.chart-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.chart-stat { text-align: center; }
+.chart-stat .label { font-size: 10px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.chart-stat .value { font-size: 17px; font-weight: 700; margin-top: 2px; }
+
+svg.chart { width: 100%; height: 180px; display: block; }
+
+.log-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.log-item .info .date { font-size: 12px; color: var(--muted); }
+.log-item .info .main { font-weight: 600; font-size: 15px; }
+.log-item .info .secondary { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.log-item .del-btn { background: none; color: var(--danger); font-size: 13px; }
+
+/* INFOS */
+.info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.info-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; display:flex; align-items:center; gap:8px; }
+.info-card p, .info-card li { font-size: 14px; line-height: 1.55; color: var(--text); }
+.info-card ul, .info-card ol { padding-left: 20px; margin-top: 4px; }
+.info-card li { margin-bottom: 6px; }
+.info-card .strong-text { font-weight: 600; }
+
+.checklist-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #F4F4F5;
+  cursor: pointer;
+  user-select: none;
+}
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item.checked .checklist-text { text-decoration: line-through; color: var(--muted); }
+.checklist-checkbox {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: white;
+  margin-top: 1px;
+}
+.checklist-item.checked .checklist-checkbox { background: var(--success); border-color: var(--success); }
+.checklist-item.checked .checklist-checkbox::after { content:"✓"; color: white; font-size: 13px; font-weight: 700; }
+.checklist-text { flex: 1; font-size: 14px; line-height: 1.5; }
+
+/* TABBAR */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  padding: 6px 0 calc(6px + var(--safe-bottom));
+  z-index: 50;
+}
+.tabbar-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+  color: var(--muted);
+  transition: color .15s;
+}
+.tabbar-btn.active { color: var(--primary); }
+.tabbar-btn .icon { font-size: 22px; line-height: 1; }
+.tabbar-btn .label { font-size: 10px; font-weight: 600; }
+
+.empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+.empty-state .icon { font-size: 40px; margin-bottom: 8px; }
+.empty-state p { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <h1>Trail 30 km</h1>
+  <div class="subtitle">Course du 10 octobre 2026</div>
+  <div class="countdown" id="countdown"></div>
+</header>
+
+<main>
+  <!-- TODAY -->
+  <section id="tab-today" class="tab-content active"></section>
+  <!-- PLAN -->
+  <section id="tab-plan" class="tab-content"></section>
+  <!-- NUTRITION -->
+  <section id="tab-nutrition" class="tab-content"></section>
+  <!-- SUIVI -->
+  <section id="tab-tracking" class="tab-content"></section>
+  <!-- INFOS -->
+  <section id="tab-info" class="tab-content"></section>
+</main>
+
+<nav class="tabbar">
+  <button class="tabbar-btn active" data-tab="today"><span class="icon">🏃</span><span class="label">Aujourd'hui</span></button>
+  <button class="tabbar-btn" data-tab="plan"><span class="icon">📅</span><span class="label">Plan</span></button>
+  <button class="tabbar-btn" data-tab="nutrition"><span class="icon">🍽️</span><span class="label">Nutrition</span></button>
+  <button class="tabbar-btn" data-tab="tracking"><span class="icon">📊</span><span class="label">Suivi</span></button>
+  <button class="tabbar-btn" data-tab="info"><span class="icon">ℹ️</span><span class="label">Infos</span></button>
+</nav>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-emoji" id="modal-emoji"></div>
+      <div class="modal-header-content">
+        <h2 id="modal-title"></h2>
+        <div id="modal-subtitle" style="font-size:13px;color:var(--muted);margin-top:2px;"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// =============== DATA ===============
+const START_DATE = new Date('2026-05-11T00:00:00');
+const RACE_DATE = new Date('2026-10-10T00:00:00');
+
+const WEEKS = [
+  // PHASE 1
+  { n:1, phase:1, dates:"11 - 17 mai", total:25, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"45 min EF (≈ 7 km) + renfo bas du corps 15 min"},
+    {d:"Mar",t:"MMA",x:"MMA 19h-20h30",mma:true},
+    {d:"Mer",t:"EF allure",x:"55 min EF (≈ 8 km), terrain vallonné si possible"},
+    {d:"Jeu",t:"EF + renfo B",x:"40 min EF (≈ 6 km) + renfo core 15 min"},
+    {d:"Ven",t:"MMA",x:"MMA 19h-20h30",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"1h05-1h15 EF (≈ 10-11 km), sentier si possible"},
+    {d:"Dim",t:"Repos",x:"Repos complet ou marche active 30 min",rest:true}
+  ]},
+  { n:2, phase:1, dates:"18 - 24 mai", total:28, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"50 min EF (≈ 7,5 km) + renfo bas du corps 15 min"},
+    {d:"Mar",t:"MMA",x:"MMA 19h-20h30",mma:true},
+    {d:"Mer",t:"EF",x:"55 min EF (≈ 8,5 km)"},
+    {d:"Jeu",t:"EF + lignes droites",x:"45 min EF + 4 accélérations de 20s en fin"},
+    {d:"Ven",t:"MMA",x:"MMA 19h-20h30",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"1h15-1h25 EF (≈ 12 km), recherche un peu de relief"},
+    {d:"Dim",t:"Repos",x:"Repos ou footing très lent 25 min",rest:true}
+  ]},
+  { n:3, phase:1, dates:"25 - 31 mai", total:32, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF (≈ 8 km) + renfo 20 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"EF avec côtes",x:"60 min EF dont 6 côtes courtes (20s vite, retour en trot)"},
+    {d:"Jeu",t:"EF",x:"45 min EF (≈ 7 km)"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"1h25-1h35 EF (≈ 13-14 km), trail si possible"},
+    {d:"Dim",t:"Récup",x:"30-40 min footing très lent OU repos",rest:true}
+  ]},
+  { n:4, phase:1, dates:"1 - 7 juin", total:23, decharge:true, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"40 min EF (≈ 6 km) + renfo 15 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"EF",x:"45 min EF (≈ 7 km)"},
+    {d:"Jeu",t:"Repos",x:"Repos complet",rest:true},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie",x:"1h00 EF (≈ 10 km), facile"},
+    {d:"Dim",t:"Repos",x:"Repos ou marche",rest:true}
+  ]},
+  { n:5, phase:1, dates:"8 - 14 juin", total:35, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 20 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"EF + côtes",x:"60 min dont 8×30s en côte"},
+    {d:"Jeu",t:"EF",x:"55 min EF (≈ 8 km)"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"1h40 EF (≈ 15 km), trail vallonné"},
+    {d:"Dim",t:"Récup",x:"30 min très lent ou repos",rest:true}
+  ]},
+  { n:6, phase:1, dates:"15 - 21 juin", total:38, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo bas du corps 20 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"EF allure",x:"60-65 min EF, dernières 10 min un cran au-dessus"},
+    {d:"Jeu",t:"EF",x:"55 min EF (≈ 8 km)"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"1h45-1h55 EF (≈ 16-17 km), profil vallonné"},
+    {d:"Dim",t:"Récup",x:"30-40 min très lent ou repos",rest:true}
+  ]},
+  // PHASE 2
+  { n:7, phase:2, dates:"22 - 28 juin", total:38, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"50 min EF + renfo 20 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Fractionné court",x:"15 min EF → 8×(45s vite / 1'30 trot) → 15 min EF"},
+    {d:"Jeu",t:"EF",x:"50 min EF (≈ 7,5 km)"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"1h50 EF (≈ 17 km)"},
+    {d:"Dim",t:"Récup",x:"Repos ou 30 min très lent",rest:true}
+  ]},
+  { n:8, phase:2, dates:"29 juin - 5 juillet", total:42, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 20 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Fractionné",x:"20 min EF → 10×(1 min vite / 1 min trot) → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"55 min EF"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"2h00 EF (≈ 18 km), profil avec D+"},
+    {d:"Dim",t:"Récup",x:"30 min très lent ou repos",rest:true}
+  ]},
+  { n:9, phase:2, dates:"6 - 12 juillet", total:45, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 20 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Côtes",x:"20 min EF → 8 côtes de 1 min (retour en trot) → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"55 min EF (≈ 8 km)"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"2h10 EF (≈ 20 km), trail vallonné"},
+    {d:"Dim",t:"Récup",x:"30 min très lent ou repos",rest:true}
+  ]},
+  { n:10, phase:2, dates:"13 - 19 juillet", total:32, decharge:true, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"45 min EF + renfo 15 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"EF + lignes droites",x:"45 min EF + 5 accélérations de 20s"},
+    {d:"Jeu",t:"Repos",x:"Repos complet",rest:true},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie",x:"1h30 EF (≈ 14 km)"},
+    {d:"Dim",t:"Repos",x:"Repos",rest:true}
+  ]},
+  { n:11, phase:2, dates:"20 - 26 juillet", total:47, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 25 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Seuil",x:"20 min EF → 2×10 min à allure semi (récup 3 min trot) → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"60 min EF (≈ 9 km)"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"2h20 EF (≈ 21 km)"},
+    {d:"Dim",t:"Récup",x:"30 min très lent ou repos",rest:true}
+  ]},
+  { n:12, phase:2, dates:"27 juillet - 2 août", total:50, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"60 min EF + renfo 25 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Côtes longues",x:"20 min EF → 6×2 min en côte (retour trot) → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"60 min EF (≈ 9 km)"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"2h30 EF (≈ 23 km), trail vallonné"},
+    {d:"Dim",t:"Récup",x:"35 min très lent",rest:true}
+  ]},
+  { n:13, phase:2, dates:"3 - 9 août", total:50, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"60 min EF + renfo 25 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Fractionné long",x:"15 min EF → 4×2000m allure 10km (récup 2 min) → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"55 min EF"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"2h35 EF (≈ 24 km)"},
+    {d:"Dim",t:"Récup",x:"Repos ou 30 min très lent",rest:true}
+  ]},
+  // PHASE 3
+  { n:14, phase:3, dates:"10 - 16 août", total:53, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 25 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Côtes",x:"20 min EF → 10×1 min en côte raide (descente lente) → 10 min EF"},
+    {d:"Jeu",t:"EF trail",x:"60 min EF sur sentier"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue trail",x:"2h45-3h00 EF sur sentier (≈ 25 km), D+ recherché"},
+    {d:"Dim",t:"Récup",x:"30 min très lent ou repos",rest:true}
+  ]},
+  { n:15, phase:3, dates:"17 - 23 août", total:55, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 25 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Tempo",x:"20 min EF → 25 min à allure semi-marathon → 10 min EF"},
+    {d:"Jeu",t:"EF trail",x:"60 min EF sur sentier"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue trail",x:"3h00 EF (≈ 26 km), sentier avec D+"},
+    {d:"Dim",t:"Récup",x:"35 min très lent",rest:true}
+  ]},
+  { n:16, phase:3, dates:"24 - 30 août", total:38, decharge:true, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"45 min EF + renfo 15 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"EF + lignes droites",x:"50 min EF + 6×20s rapides"},
+    {d:"Jeu",t:"Repos",x:"Repos complet",rest:true},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie",x:"1h50 EF (≈ 17 km), sentier"},
+    {d:"Dim",t:"Repos",x:"Repos",rest:true}
+  ]},
+  { n:17, phase:3, dates:"31 août - 6 sept.", total:58, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"60 min EF + renfo 25 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Côtes longues",x:"20 min EF → 5×3 min en côte (retour trot) → 10 min EF"},
+    {d:"Jeu",t:"EF trail",x:"65 min EF sur sentier"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"SORTIE PIC",x:"3h15-3h30 EF (≈ 28 km), trail proche de la course, test ravito"},
+    {d:"Dim",t:"Récup",x:"30 min très lent",rest:true}
+  ]},
+  { n:18, phase:3, dates:"7 - 13 sept.", total:60, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 25 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Spécifique allure",x:"20 min EF → 3×10 min allure trail (récup 3 min trot) → 10 min EF"},
+    {d:"Jeu",t:"EF trail",x:"60 min EF sur sentier"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"SORTIE PIC",x:"3h30 (≈ 29-30 km), trail, test complet : nutrition, hydratation, matos"},
+    {d:"Dim",t:"Récup",x:"35 min très lent",rest:true}
+  ]},
+  { n:19, phase:3, dates:"14 - 20 sept.", total:55, sessions:[
+    {d:"Lun",t:"EF + renfo A",x:"55 min EF + renfo 20 min"},
+    {d:"Mar",t:"MMA",x:"MMA",mma:true},
+    {d:"Mer",t:"Tempo court",x:"15 min EF → 20 min à allure semi → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"55 min EF"},
+    {d:"Ven",t:"MMA",x:"MMA",mma:true},
+    {d:"Sam",t:"Sortie longue",x:"2h45 EF (≈ 25 km), trail"},
+    {d:"Dim",t:"Récup",x:"30 min très lent",rest:true}
+  ]},
+  // PHASE 4
+  { n:20, phase:4, dates:"21 - 27 sept.", total:45, sessions:[
+    {d:"Lun",t:"EF + renfo léger",x:"50 min EF + renfo 15 min"},
+    {d:"Mar",t:"MMA",x:"MMA (dernière grosse séance avant la course)",mma:true},
+    {d:"Mer",t:"Allure trail",x:"15 min EF → 4×5 min allure trail (récup 2 min) → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"45 min EF"},
+    {d:"Ven",t:"MMA léger",x:"MMA en limitant les contacts durs",mma:true},
+    {d:"Sam",t:"Sortie semi-longue",x:"1h45 EF (≈ 16 km), sentier"},
+    {d:"Dim",t:"Récup",x:"30 min très lent ou repos",rest:true}
+  ]},
+  { n:21, phase:4, dates:"28 sept. - 4 oct.", total:30, sessions:[
+    {d:"Lun",t:"EF léger",x:"40 min EF tranquille"},
+    {d:"Mar",t:"MMA souple",x:"MMA mode technique, peu de cardio dur",mma:true},
+    {d:"Mer",t:"Allure",x:"10 min EF → 3×4 min allure trail (récup 2 min) → 10 min EF"},
+    {d:"Jeu",t:"EF",x:"30 min EF (≈ 4,5 km)"},
+    {d:"Ven",t:"Repos",x:"Repos préférable cette semaine",rest:true},
+    {d:"Sam",t:"Sortie courte",x:"1h00 EF (≈ 9 km), sentier"},
+    {d:"Dim",t:"Récup",x:"Repos",rest:true}
+  ]},
+  { n:22, phase:4, dates:"5 - 10 oct.", total:18, race:true, sessions:[
+    {d:"Lun",t:"Footing souple",x:"30 min EF avec 4×20s vifs en fin"},
+    {d:"Mar",t:"Repos / MMA très léger",x:"Pas de combat, pas de cardio dur"},
+    {d:"Mer",t:"Footing court",x:"25 min EF avec 3×20s lignes droites"},
+    {d:"Jeu",t:"Repos",x:"Repos complet, jambes en l'air le soir",rest:true},
+    {d:"Ven",t:"Activation",x:"15-20 min EF + 3×20s allure course"},
+    {d:"Sam",t:"🏁 JOUR J",x:"TRAIL 30 KM — bonne course Florian"},
+    {d:"Dim",t:"Récup",x:"Marche, étirements doux, alimentation réconfortante",rest:true}
+  ]}
+];
+
+const PHASES = [
+  { n:1, name:"Base aérobie", dates:"11 mai - 21 juin", obj:"Construire le moteur", vol:"25 → 38 km", color:"#0F766E" },
+  { n:2, name:"Développement", dates:"22 juin - 9 août", obj:"Introduire la qualité, allonger les sorties", vol:"38 → 50 km", color:"#0891B2" },
+  { n:3, name:"Spécifique trail", dates:"10 août - 20 sept.", obj:"Trail, côtes, longues sur sentier", vol:"50 → 60 km", color:"#EA580C" },
+  { n:4, name:"Affûtage", dates:"21 sept. - 10 oct.", obj:"Récupérer, rester affûté", vol:"45 → 18 km", color:"#DC2626" }
+];
+
+const RECIPES = [
+  { id:1, cat:"petit-dej", emoji:"🥣", name:"Porridge protéiné banane-fruits rouges", kcal:450, p:28, g:60, l:12,
+    ing:["60 g flocons d'avoine","250 ml lait demi-écrémé","1 dose whey vanille (25 g) - optionnel","1 banane mûre","60 g fruits rouges","1 c. à café miel","10 g noix concassées"],
+    steps:["Verse flocons et lait dans une casserole","Chauffe 3-4 min à feu doux en remuant","Hors du feu, ajoute la whey","Verse dans un bol, ajoute banane, fruits, miel, noix","Peut se préparer la veille (overnight oats)"] },
+  { id:2, cat:"petit-dej", emoji:"🍳", name:"Œufs brouillés + pain complet + avocat", kcal:500, p:28, g:38, l:25,
+    ing:["3 œufs entiers","60 g pain complet (2 tranches)","1/2 avocat","1 tomate ou tomates cerises","1 c. à café huile d'olive","Sel, poivre, ciboulette"],
+    steps:["Bats les œufs avec sel, poivre, ciboulette","Chauffe l'huile à feu doux","Verse les œufs, remue doucement pour garder crémeux","Toaste le pain, tale l'avocat écrasé","Sers avec œufs et tomates"] },
+  { id:3, cat:"petit-dej", emoji:"🥛", name:"Bowl yaourt grec, avoine et fruits", kcal:430, p:28, g:55, l:11,
+    ing:["200 g yaourt grec 0%","40 g flocons d'avoine","1 banane","100 g fruits rouges","1 c. à café miel","10 g noix de cajou"],
+    steps:["Mélange yaourt et flocons dans un bol","Ajoute la banane en rondelles et les fruits rouges","Verse le miel et parsème de cajou","Laisse 5 min au frigo, l'avoine gonfle légèrement"] },
+  { id:16, cat:"petit-dej", emoji:"🥥", name:"Overnight oats banane-cacao (prep veille)", kcal:460, p:25, g:70, l:11,
+    ing:["50 g flocons d'avoine","200 ml lait demi-écrémé (ou lait végétal)","1 c. à soupe cacao non sucré","1 banane mûre écrasée","1 c. à soupe miel","10 g noix concassées (cajou ou cerneaux)","1 pincée de cannelle"],
+    steps:["LE SOIR D'AVANT : dans un bocal en verre, mélange tout ensemble","Banane bien écrasée pour qu'elle se répartisse","Couvre, frigo (min 4h, parfait pour la nuit)","LE MATIN : tu ouvres, tu remues, tu manges directement dans le bocal","30 secondes chrono. Tu peux même l'emporter au bureau","Tu peux préparer 2 bocaux à l'avance (max 3 jours au frigo)"] },
+  { id:17, cat:"petit-dej", emoji:"🥤", name:"Smoothie protéiné express (2 min)", kcal:500, p:35, g:55, l:15,
+    ing:["300 ml lait demi-écrémé (ou végétal)","1 dose de whey vanille ou chocolat (25 g)","1 banane","40 g flocons d'avoine","1 c. à soupe beurre de cacahuète","1 pincée de cannelle ou cacao"],
+    steps:["Mets tout dans un blender (ou shaker à bille si pas de blender)","Mixe 30-45 secondes","Verse dans une gourde isotherme","Bois en marchant vers le boulot OU dans la voiture","Le mix avec les flocons rassasie 3-4 heures, parfait jusqu'au déj"] },
+  { id:18, cat:"petit-dej", emoji:"🍞", name:"Tartine cacahuète-banane (3 min)", kcal:450, p:15, g:65, l:15,
+    ing:["2 tranches de pain complet ou aux céréales (60 g)","1 c. à soupe bombée beurre de cacahuète (sans sucre ajouté)","1 banane","1 c. à café de miel","1 pincée de cannelle (optionnel)","1 grand café noir"],
+    steps:["Toaste le pain 1 min (option mais meilleur)","Tartine le beurre de cacahuète","Banane en rondelles dessus","Filet de miel + cannelle","3 minutes chrono. Café à côté ou dans une tasse à emporter"] },
+  { id:19, cat:"petit-dej", emoji:"🍪", name:"Cookies petit-déj avoine (prep dimanche)", kcal:530, p:18, g:65, l:24,
+    ing:["POUR 12 COOKIES :","200 g flocons d'avoine","3 bananes très mûres","100 g beurre de cacahuète","2 œufs","60 g chocolat noir 70% en pépites","1 c. à café cannelle","1 pincée de sel","→ Petit-déj = 3 cookies + 1 fruit + café"],
+    steps:["DIMANCHE : préchauffe four 180°C","Écrase les bananes à la fourchette","Mélange tous les ingrédients dans un saladier","Forme 12 boules aplaties sur une plaque (papier cuisson)","Cuis 15-18 min jusqu'à coloration dorée","Laisse refroidir, conserve dans une boîte hermétique 5-7 jours","SEMAINE : 3 cookies + 1 fruit + café = 30 secondes. À emporter ultra-pratique"] },
+  { id:20, cat:"petit-dej", emoji:"🥚", name:"Œufs durs + pain + fruit (prep dimanche)", kcal:420, p:22, g:42, l:18,
+    ing:["2 œufs durs (cuits à l'avance)","1 tranche de pain complet (30 g)","1/2 avocat OU 1 c. à soupe fromage frais","1 fruit (banane, pomme, kiwi)","Sel, poivre, paprika","1 café"],
+    steps:["DIMANCHE : cuis 6-8 œufs durs (10 min eau bouillante salée, puis bain d'eau froide). Garde au frigo dans leur coquille, ça tient 5-7 jours","SEMAINE LE MATIN : décortique 2 œufs (30 s)","Toaste le pain, tartine d'avocat ou fromage frais","Sale, poivre, paprika sur les œufs","Mange le fruit en marchant. Total : 3 min"] },
+  { id:4, cat:"dejeuner", emoji:"🍚", name:"Bowl poulet, riz basmati et légumes", kcal:650, p:50, g:75, l:12,
+    ing:["140 g blanc de poulet","70 g riz basmati (cru)","200 g légumes mélangés","1 c. à soupe huile d'olive","1 gousse d'ail","1 c. à soupe sauce soja","Paprika fumé, sel, poivre"],
+    steps:["Cuis le riz selon les instructions","Coupe le poulet en cubes, assaisonne","Chauffe l'huile avec l'ail écrasé","Saisis le poulet 5-6 min, réserve","Fais sauter les légumes 5 min à feu vif","Remets le poulet, ajoute la sauce soja","Sers sur le riz"] },
+  { id:5, cat:"dejeuner", emoji:"🍝", name:"Spaghetti bolognaise maison maigre", kcal:680, p:45, g:80, l:18,
+    ing:["100 g spaghetti complets (cru)","150 g bœuf haché 5%","200 g pulpe de tomates","1 carotte, 1 oignon, 1 gousse d'ail","1 c. à soupe huile d'olive","Origan, sel, poivre","20 g parmesan râpé"],
+    steps:["Râpe la carotte, mince oignon, écrase l'ail","Fais revenir oignon 3 min, ajoute ail et carotte 2 min","Ajoute le bœuf haché, cuis 5 min","Verse la pulpe de tomates, assaisonne, mijote 15-20 min","Pendant ce temps, cuis les pâtes al dente","Sers nappé de sauce, finis avec parmesan"] },
+  { id:6, cat:"dejeuner", emoji:"🥗", name:"Salade quinoa, pois chiches et poulet", kcal:620, p:45, g:70, l:17,
+    ing:["80 g quinoa (cru)","100 g blanc de poulet","150 g pois chiches cuits","1/2 concombre, 100 g tomates cerises","1/2 oignon rouge","10 olives noires","1 c. à soupe huile d'olive + 1/2 citron","Sel, poivre, persil"],
+    steps:["Cuis le quinoa (~12 min eau bouillante), laisse refroidir","Cuis le poulet à la poêle, 5-6 min par face","Coupe les légumes, mince l'oignon rouge","Mélange tout dans un saladier","Assaisonne avec huile, citron, sel, poivre, persil","Se transporte parfaitement au boulot"] },
+  { id:7, cat:"dejeuner", emoji:"🌯", name:"Wrap poulet, avocat, crudités", kcal:580, p:40, g:55, l:22,
+    ing:["2 grandes galettes de blé","120 g blanc de poulet cuit","1/2 avocat","Salade verte","1/2 carotte râpée, 1/2 tomate","1 c. à soupe fromage frais léger","Sel, poivre, paprika"],
+    steps:["Cuis le poulet si cru, tranche-le","Tartine le fromage frais sur les galettes","Dispose salade, carotte râpée, tomate","Ajoute poulet et avocat écrasé","Roule serré, coupe en deux"] },
+  { id:8, cat:"diner", emoji:"🍠", name:"Omelette + légumes vapeur + patate douce", kcal:600, p:35, g:55, l:22,
+    ing:["3 œufs entiers","1 patate douce moyenne (250 g)","200 g légumes (brocoli, haricots verts)","30 g fromage râpé léger","1 c. à café huile d'olive","Sel, poivre, herbes de Provence"],
+    steps:["Pique la patate douce, cuis 25 min four à 200°C OU 10 min micro-ondes","Cuis les légumes à la vapeur 7-8 min","Bats les œufs avec sel, poivre, herbes, fromage","Cuis l'omelette à feu doux 3-4 min","Sers dans une assiette"] },
+  { id:9, cat:"diner", emoji:"🥢", name:"Wok poulet, légumes, riz basmati", kcal:620, p:45, g:70, l:14,
+    ing:["130 g blanc de poulet","70 g riz basmati (cru)","250 g légumes à wok","1 c. à soupe huile de tournesol","1 c. à soupe sauce soja","1 c. à café gingembre râpé","1 gousse d'ail"],
+    steps:["Cuis le riz","Coupe le poulet en lanières","Chauffe l'huile à feu vif dans un wok","Saisis poulet 4-5 min avec ail et gingembre, réserve","Saute les légumes 5-6 min à feu vif","Remets le poulet, ajoute la sauce soja","Sers sur le riz"] },
+  { id:10, cat:"diner", emoji:"🥒", name:"Bœuf haché, courgettes et boulgour", kcal:640, p:45, g:70, l:16,
+    ing:["150 g bœuf haché 5%","70 g boulgour (cru)","2 courgettes moyennes","1 oignon, 1 gousse d'ail","1 c. à soupe huile d'olive","Cumin, sel, poivre"],
+    steps:["Cuis le boulgour (~10 min)","Coupe les courgettes en demi-rondelles, mince l'oignon","Fais revenir l'oignon 3 min, puis l'ail","Ajoute le bœuf, casse à la fourchette, cuis 4-5 min","Ajoute les courgettes, cumin, sel. Couvre 8-10 min","Sers avec le boulgour"] },
+  { id:11, cat:"diner", emoji:"🍛", name:"Curry tofu légumes et riz", kcal:620, p:30, g:75, l:22,
+    ing:["150 g tofu ferme","70 g riz basmati (cru)","200 g légumes (carottes, brocoli)","150 ml lait de coco léger","1 c. à soupe pâte de curry rouge","1 oignon, 1 gousse d'ail","Huile, sauce soja"],
+    steps:["Coupe le tofu en cubes, éponge-le","Fais revenir 5 min à feu vif, réserve","Fais revenir oignon et ail 3 min","Ajoute la pâte de curry 30 s","Ajoute légumes, lait de coco, mijote 8-10 min","Remets le tofu, ajoute la sauce soja","Sers sur le riz"] },
+  { id:12, cat:"diner", emoji:"🍲", name:"Dahl de lentilles corail", kcal:580, p:30, g:80, l:13,
+    ing:["150 g lentilles corail (cru)","1 oignon, 2 gousses d'ail, gingembre","200 g pulpe de tomates","150 ml lait de coco léger","Curcuma, cumin, paprika","1 c. à soupe huile d'olive","Coriandre, citron","60 g riz basmati"],
+    steps:["Mince oignon, ail, gingembre. Fais revenir dans l'huile 3 min","Ajoute les épices, mélange 30 s","Ajoute lentilles rincées, pulpe, 400 ml d'eau, lait de coco","Mijote 20 min à feu doux","Sale, poivre, ajuste avec citron","Sers avec le riz et coriandre"] },
+  { id:13, cat:"diner", emoji:"🥔", name:"Patates douces farcies aux œufs", kcal:600, p:32, g:65, l:22,
+    ing:["2 grosses patates douces (350 g)","3 œufs","150 g d'épinards","30 g fromage râpé","1 gousse d'ail","1 c. à soupe huile d'olive","Sel, poivre, muscade"],
+    steps:["Cuis les patates douces 40 min four à 200°C","Fais revenir l'ail, ajoute les épinards 4-5 min","Ouvre les patates en deux","Creuse légèrement, mélange chair et épinards","Casse 1 œuf dans chaque moitié","Saupoudre de fromage, sel, poivre, muscade","Au four 10 min pour cuire l'œuf"] },
+  { id:14, cat:"snack", emoji:"🍫", name:"Energy balls cacao-avoine", kcal:120, p:4, g:15, l:5,
+    ing:["100 g flocons d'avoine","100 g dattes dénoyautées","30 g cacao non sucré","30 g beurre de cacahuète","30 g noix de cajou","2 c. à soupe miel","Eau si besoin"],
+    steps:["Mixe les dattes en pâte","Ajoute le reste, mixe par à-coups","La pâte doit tenir entre les doigts","Forme 10 boules (~30 g)","1h au frigo. Conserve 1 semaine","Parfaites pendant les sorties longues (1 toutes les 30-45 min)"] },
+  { id:15, cat:"snack", emoji:"🥤", name:"Smoothie de récupération post-sortie", kcal:400, p:30, g:55, l:6,
+    ing:["300 ml lait demi-écrémé","1 banane mûre","1 dose de whey (25 g) ou 200 g yaourt grec","1 c. à soupe miel","1 pincée de sel","1 c. à café cacao non sucré (optionnel)"],
+    steps:["Mets tout dans un blender","Mixe 30 s","Bois dans les 30 min après la sortie","La pincée de sel remplace les sels perdus à la transpiration"] },
+  { id:21, cat:"diner", emoji:"🍲", name:"Soupe de lentilles corail tomate (double portion)", kcal:550, p:28, g:80, l:12,
+    ing:["POUR 2 PORTIONS :","150 g lentilles corail","1 oignon, 2 carottes","2 gousses d'ail","400 g pulpe de tomates","600 ml bouillon de légumes","1 c. à café cumin","1 c. à soupe huile d'olive","Sel, poivre, persil","2 tranches pain complet (par portion)"],
+    steps:["Mince oignon, ail, carottes en petits dés","Fais revenir 5 min dans l'huile","Ajoute le cumin, 30 secondes","Verse les lentilles rincées, la pulpe de tomates, le bouillon","Porte à ébullition puis baisse, couvre, 20 min","Mixe légèrement (mixeur plongeant) pour une texture crémeuse","Sale, poivre, ajoute le persil","CE SOIR : 1 portion + pain. DEMAIN MIDI : l'autre dans une boîte (se mange chaud ou tiède)"] },
+  { id:22, cat:"diner", emoji:"🍳", name:"Riz cantonais maison rapide (15 min)", kcal:600, p:35, g:75, l:16,
+    ing:["80 g riz basmati (cru) OU 200 g riz cuit de la veille","100 g jambon blanc maigre en dés (ou restes de poulet)","2 œufs","100 g petits pois surgelés","1 oignon","2 c. à soupe sauce soja","1 c. à café huile de sésame","1 c. à soupe huile neutre","Ciboulette"],
+    steps:["Cuis le riz si pas déjà cuit, laisse refroidir","Mince l'oignon, bats les œufs dans un bol","Chauffe l'huile neutre dans un wok à feu vif","Saisis l'oignon 2 min, ajoute le jambon 1 min","Pousse sur les côtés, verse les œufs au centre, brouille rapidement","Ajoute le riz, les petits pois (encore surgelés), mélange 3 min","Verse la sauce soja et l'huile de sésame, mélange","Parsème de ciboulette. Servi avec une salade verte = repas complet"] },
+  { id:23, cat:"diner", emoji:"🍝", name:"Boulettes de bœuf sauce tomate (double portion)", kcal:650, p:50, g:65, l:18,
+    ing:["POUR 2 PORTIONS :","400 g bœuf haché 5%","1 oignon haché finement","1 œuf","30 g chapelure (ou flocons d'avoine mixés)","1 gousse d'ail écrasée","Persil, sel, poivre","SAUCE : 400 g pulpe tomates, 1 oignon, ail, origan, basilic","ACCOMPAGNEMENT : 100 g pâtes complètes ou riz par portion"],
+    steps:["Mélange à la main : bœuf, oignon, œuf, chapelure, ail, persil, sel, poivre","Forme 12 boulettes (6 par portion)","Fais revenir 5-6 min dans une poêle huilée, dorées de tous côtés. Réserve","Dans la même poêle, fais revenir l'oignon de la sauce 3 min, ajoute ail et tomates","Mijote 10 min, assaisonne","Remets les boulettes, mijote 10 min de plus","Cuis les pâtes/riz","CE SOIR : 6 boulettes + pâtes. DEMAIN MIDI : les 6 autres + pâtes dans une boîte. Se réchauffe en 2 min au micro-ondes"] },
+  { id:24, cat:"diner", emoji:"🍗", name:"Poulet rôti aux légumes au four (zéro vaisselle)", kcal:600, p:42, g:50, l:22,
+    ing:["150 g blanc ou cuisse de poulet","1 patate douce moyenne","1 courgette","1 poivron rouge","1 oignon rouge","2 gousses d'ail (entières, en chemise)","2 c. à soupe huile d'olive","Herbes de Provence, paprika fumé","Sel, poivre","Optionnel : 1/2 citron"],
+    steps:["Préchauffe le four à 200°C","Coupe tous les légumes en gros morceaux","Étale sur une plaque, arrose d'huile, ajoute herbes, paprika, sel, poivre","Mets le poulet par-dessus, ajoute les gousses d'ail en chemise","Au four 25-30 min (vérifie le poulet : jus clair = cuit)","Filet de jus de citron à la sortie (optionnel)","Une seule plaque à laver. Le top les soirs flemme","Astuce : double les légumes, ils sont parfaits froids le lendemain en salade"] }
+];
+
+const MEAL_PLAN = [
+  { day:"Lundi", tag:null, pd:"Overnight oats (prep dim. soir)", dj:"Bowl poulet/riz/légumes", coll:"Yaourt grec + miel", din:"Omelette + patate douce" },
+  { day:"Mardi", tag:"MMA", pd:"Smoothie protéiné express", dj:"Wrap poulet/crudités", coll:"Banane + cajou", din:"Wok rapide (restes midi)" },
+  { day:"Mercredi", tag:"Qualité", pd:"Overnight oats (prep mar. soir)", dj:"Spaghetti bolognaise", coll:"Fromage blanc + miel", din:"Soupe lentilles + pain" },
+  { day:"Jeudi", tag:null, pd:"Tartine cacahuète-banane", dj:"Salade quinoa pois chiches", coll:"Energy balls (2)", din:"Bœuf haché + courgettes" },
+  { day:"Vendredi", tag:"MMA", pd:"Cookies maison (3) + fruit", dj:"Bowl poulet/riz/légumes", coll:"Pomme + beurre cacahuète", din:"Curry tofu + riz (rapide)" },
+  { day:"Samedi", tag:"Sortie longue", pd:"Tartine miel-banane (2h avant)", dj:"Smoothie récup + repas complet", coll:"Energy balls + fruit", din:"Patates douces farcies" },
+  { day:"Dimanche", tag:"Jour prep", pd:"Œufs brouillés + pain (temps)", dj:"Repas libre (modéré)", coll:"Yaourt grec", din:"Dahl lentilles corail" }
+];
+
+const INFOS = {
+  trail: {
+    title: "🥤 Nutrition trail",
+    sections: [
+      { h:"La veille (vendredi soir)", items:[
+        "Repas riche en glucides complexes : pâtes, riz, patate douce",
+        "Avec viande maigre et légumes peu fibreux",
+        "Pas d'alcool, pas d'épices fortes, pas de plats très gras",
+        "Hydratation régulière toute la journée",
+        "Coucher tôt, 8h de sommeil minimum"
+      ]},
+      { h:"2h-3h avant le départ", items:[
+        "Petit-déjeuner testé à l'entraînement",
+        "60 g flocons d'avoine + lait + 1 banane + 1 c. à s. miel + 1 café",
+        "Vise ~500-600 kcal",
+        "Évite : pains gras, produits laitiers entiers, fruits fibreux à jeun"
+      ]},
+      { h:"Pendant la course (~3h30-4h pour 30 km)", items:[
+        "Commence à manger AVANT d'avoir faim, et boire AVANT d'avoir soif",
+        "Hydratation : 500-750 ml/h avec boisson électrolytes",
+        "Glucides : 60-80 g/h à partir de la 1re heure",
+        "Stratégie type : 1 gel ou pâte de fruits toutes les 30 min à partir du km 8",
+        "JAMAIS de produit nouveau le jour J"
+      ]},
+      { h:"Juste après l'arrivée (30 min)", items:[
+        "Le smoothie de récupération (recette 15)",
+        "OU 500 ml de lait chocolat",
+        "Une banane ou une compote",
+        "Hydratation généreuse, gobelet par gobelet"
+      ]},
+      { h:"Dans les 48h", items:[
+        "Hydratation maintenue",
+        "Repas riches en antioxydants (fruits rouges, légumes verts)",
+        "Protéines à chaque repas (1,8-2 g/kg)",
+        "Pas de course intensive 3-4 jours. Marche, vélo doux, étirements"
+      ]}
+    ]
+  },
+  hydratation: {
+    title: "💧 Hydratation",
+    sections: [
+      { h:"Au quotidien", items:[
+        "2 L d'eau par jour, hors entraînement",
+        "500 ml au lever, 500 ml dans la matinée, 500 ml l'après-midi, 500 ml le soir",
+        "Café : 2 max par jour, pas après 15h",
+        "Test du pipi : jaune pâle = ok, foncé = pas assez bu"
+      ]},
+      { h:"Pendant l'effort", items:[
+        "< 1h : 200-400 ml d'eau",
+        "1-1h30 : 500-750 ml d'eau ± électrolytes",
+        "1h30-3h : 500-750 ml/h, électrolytes recommandés, 30-60 g glucides/h",
+        "> 3h : 500-750 ml/h, électrolytes obligatoires, 60-80 g glucides/h"
+      ]},
+      { h:"Sels minéraux", items:[
+        "Sur sorties > 1h30 : pastille effervescente High5 Zero ou SiS GO",
+        "Au quotidien : sale légèrement tes plats",
+        "Bananes (potassium), légumes verts (magnésium), chocolat noir 70%"
+      ]}
+    ]
+  },
+  blessures: {
+    title: "🩹 Prévention blessures",
+    sections: [
+      { h:"Routine quotidienne (10 min)", items:[
+        "Mobilité chevilles : cercles, flexions, 30 s/côté",
+        "Étirements mollets contre un mur : 30 s/côté",
+        "Étirement quadriceps debout : 30 s/côté",
+        "Étirement fessiers (figure 4) : 30 s/côté",
+        "Auto-massage mollets et fessiers : 1 min/zone"
+      ]},
+      { h:"Signaux d'alarme à NE JAMAIS ignorer", items:[
+        "Douleur qui modifie ta foulée → stop, repos 2-3 jours",
+        "Douleur articulaire (genou, cheville) qui augmente → stop",
+        "Fatigue persistante au réveil, baisse de motivation → sur-entraînement, coupe 1 semaine",
+        "FC repos +10% de ta normale → fatigue accumulée, allège"
+      ]},
+      { h:"Récupération", items:[
+        "Sommeil : 7h30-8h par nuit (tu fais 7h15, vise 7h30 hors soirs MMA)",
+        "Dimanche = vrai jour OFF si MMA + course intense la même semaine",
+        "Bain froid (3 min) après sortie longue : accélère la récupération",
+        "Chaussettes de compression après longues descentes",
+        "Foam roller assidu, massage 1x/mois si possible"
+      ]}
+    ]
+  },
+  course: {
+    title: "🏁 Plan de course (30 km)",
+    sections: [
+      { h:"Découpe la course en 3 sections", items:[
+        "Section 1 (km 0-10) : RETIENS-TOI. Allure conservatrice. Tu te dis 'je vais trop doucement' = c'est exactement la bonne allure",
+        "Section 2 (km 10-20) : CROISIÈRE. Tu t'installes. Mange et bois régulièrement même si tu te sens bien",
+        "Section 3 (km 20-30) : GESTION. Petit objectif = passer le prochain repère. Marche les côtes raides. Pousse dans les descentes douces et le plat. Les 5 derniers km : lâche tout"
+      ]},
+      { h:"Quand ça fait mal", items:[
+        "Tout le monde traverse un creux entre km 20 et 26. C'est mécanique. Ça passe",
+        "Astuces : compte tes pas par 100, regarde 3 m devant toi, respiration profonde",
+        "Mange un gel dès que la motivation baisse - souvent c'est la glycémie qui chute, pas le mental"
+      ]},
+      { h:"Le matin du jour J", items:[
+        "Lève-toi 2h30 avant le départ",
+        "Petit-déj testé à l'entraînement (porridge + banane + miel + café)",
+        "300-500 ml d'eau",
+        "Tenue + crème anti-frottements + dossard",
+        "Arrivée sur place 45 min avant",
+        "Échauffement : 10 min marche + 5 min footing très lent + 4-5 lignes droites"
+      ]}
+    ]
+  }
+};
+
+const EQUIPMENT = [
+  { cat:"Indispensable", items:[
+    "Chaussures trail rodées (mini 50 km avec elles avant la course - JAMAIS de neuves)",
+    "Chaussettes anti-ampoules testées (Compressport, Stance, X-Bionic)",
+    "Sac d'hydratation 5-10L (Salomon ADV Skin 5/12, Nathan Pinnacle)",
+    "2 flasques 500 ml + poche à eau 1-1,5 L",
+    "Short ou collant court (sans coutures intérieures)",
+    "Tee-shirt technique (pas de coton)",
+    "Casquette ou visière",
+    "Crème anti-frottements (Nok, vaseline) - aine, aisselles, mamelons, pieds"
+  ]},
+  { cat:"Recommandé", items:[
+    "Bâtons trail (si D+ > 1000 m) : Black Diamond Distance Carbon Z, Leki Micro Trail",
+    "Montre GPS : Garmin Forerunner 255/265 ou Coros Pace 3",
+    "5-6 gels (SiS GO, Maurten, Powerbar) ou 8-10 energy balls",
+    "Couverture de survie + sifflet (souvent obligatoires)",
+    "Téléphone chargé (numéro urgence orga dans les contacts)"
+  ]},
+  { cat:"Selon conditions", items:[
+    "Frontale légère si départ avant lever du soleil",
+    "Lunettes de soleil avec sangle",
+    "Coupe-vent ultra-léger si météo incertaine",
+    "Buff multifonction (cou, front)"
+  ]},
+  { cat:"Checklist 48h avant", items:[
+    "Chaussures rodées et propres",
+    "Sac, flasques, poche à eau prêts",
+    "Tenue (short, tee-shirt, chaussettes, casquette)",
+    "Ravitaillement testé (gels/barres/energy balls)",
+    "Crème anti-frottements",
+    "Couverture survie, sifflet, téléphone",
+    "Montre GPS chargée",
+    "Dossard, épingles, plan, départ connu",
+    "Tenue rechange après course (sec et chaud)",
+    "Repas du retour planifié"
+  ]}
+];
+
+// =============== STORAGE ===============
+const KEY = 'trail2026_v1';
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
+  catch(e) { return {}; }
+}
+function saveData(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
+let data = loadData();
+data.completed = data.completed || {};
+data.weight = data.weight || [];
+data.weekly = data.weekly || [];
+data.equipment = data.equipment || {};
+saveData(data);
+
+// =============== UTILS ===============
+function getCurrentWeekIndex() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const diffDays = Math.floor((today - START_DATE) / (1000*60*60*24));
+  if (diffDays < 0) return -1;
+  const w = Math.floor(diffDays / 7);
+  return w >= 22 ? 21 : w;
+}
+function getCurrentDayKey() {
+  const today = new Date();
+  const dayIdx = (today.getDay() + 6) % 7; // 0=Lun, 6=Dim
+  return dayIdx;
+}
+const DAYS = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+}
+function daysTo(target) {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  return Math.floor((target - today) / (1000*60*60*24));
+}
+
+// =============== RENDER COUNTDOWN ===============
+function renderCountdown() {
+  const days = daysTo(RACE_DATE);
+  const wi = getCurrentWeekIndex();
+  const weekLabel = wi < 0 ? "Pas encore commencé" : wi >= 22 ? "Programme terminé" : `Semaine ${wi+1}/22 · Phase ${WEEKS[wi].phase}`;
+  document.getElementById('countdown').innerHTML = `
+    <div>
+      <div style="opacity:0.8;font-size:11px;text-transform:uppercase;font-weight:600;">${weekLabel}</div>
+      <div style="font-size:14px;margin-top:2px;">${days > 0 ? 'Jusqu\'au trail' : 'Course passée'}</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="countdown-number">${Math.max(0, days)}</div>
+      <div style="opacity:0.8;font-size:11px;">jours</div>
+    </div>
+  `;
+}
+
+// =============== TAB: TODAY ===============
+function renderToday() {
+  const wi = getCurrentWeekIndex();
+  const dayIdx = getCurrentDayKey();
+  const today = new Date();
+  const dayName = today.toLocaleDateString('fr-FR', { weekday:'long' });
+  const dayDate = today.toLocaleDateString('fr-FR', { day:'numeric', month:'long' });
+  
+  let session = null;
+  let isCompleted = false;
+  if (wi >= 0 && wi < 22) {
+    session = WEEKS[wi].sessions[dayIdx];
+    isCompleted = data.completed[`${wi}_${dayIdx}`];
+  }
+  
+  const isLongRun = dayIdx === 5;
+  const isMMA = dayIdx === 1 || dayIdx === 4;
+  const isRest = dayIdx === 6;
+  
+  // Macros du jour
+  let calsToday = 2000, gT = 220, pT = 150, lT = 65;
+  if (isLongRun || (wi >= 0 && WEEKS[wi]?.sessions[dayIdx]?.t.includes("Fractionné")) || (wi >= 0 && WEEKS[wi]?.sessions[dayIdx]?.t.includes("Tempo"))) {
+    calsToday = 2300; gT = 310; pT = 150; lT = 65;
+  } else if (isRest) {
+    calsToday = 1800; gT = 160; pT = 150; lT = 65;
+  }
+  
+  // Meal du jour
+  const meal = MEAL_PLAN[dayIdx];
+  
+  let html = '';
+  
+  // HERO
+  html += `<div class="today-hero">
+    <div class="day-label">${dayName}</div>
+    <div class="day-date">${dayDate}</div>`;
+  if (session) {
+    html += `<div class="session-type">${session.t}</div>
+    <div class="session-detail">${session.x}</div>
+    <div class="week-info">
+      <div><strong>S${wi+1}</strong>Semaine</div>
+      <div><strong>Phase ${WEEKS[wi].phase}</strong>${PHASES[WEEKS[wi].phase-1].name}</div>
+      <div><strong>${WEEKS[wi].total} km</strong>Volume sem.</div>
+    </div>`;
+  } else if (wi < 0) {
+    html += `<div class="session-detail">Le programme démarre le 11 mai 2026. En attendant, profite et repose-toi.</div>`;
+  } else {
+    html += `<div class="session-detail">🎉 Programme terminé. La course est passée !</div>`;
+  }
+  html += `</div>`;
+  
+  // Action: marquer comme fait
+  if (session && wi >= 0 && wi < 22) {
+    html += `<button class="btn full ${isCompleted ? 'success' : ''}" onclick="toggleSession(${wi}, ${dayIdx})">
+      ${isCompleted ? '✓ Séance validée' : 'Marquer comme fait'}
+    </button>`;
+  }
+  
+  // Macros
+  html += `<div class="card" style="margin-top:14px;">
+    <div class="card-title">🍽️ Objectif nutrition du jour</div>
+    <div class="kcal-grid">
+      <div class="kcal-box highlight">
+        <div class="label">Kcal</div>
+        <div class="value">${calsToday}</div>
+      </div>
+      <div class="kcal-box">
+        <div class="label">Prot.</div>
+        <div class="value">${pT}g</div>
+      </div>
+      <div class="kcal-box">
+        <div class="label">Gluc.</div>
+        <div class="value">${gT}g</div>
+      </div>
+      <div class="kcal-box">
+        <div class="label">Lip.</div>
+        <div class="value">${lT}g</div>
+      </div>
+    </div>
+  </div>`;
+  
+  // Meals
+  html += `<div class="card">
+    <div class="card-title">📋 Menus suggérés</div>
+    <div class="meal-row"><span class="meal-label">Petit-déj</span><span>${meal.pd}</span></div>
+    <div class="meal-row"><span class="meal-label">Déjeuner</span><span>${meal.dj}</span></div>
+    <div class="meal-row"><span class="meal-label">Collation</span><span>${meal.coll}</span></div>
+    <div class="meal-row"><span class="meal-label">Dîner</span><span>${meal.din}</span></div>
+  </div>`;
+  
+  // Conseils du jour
+  let tip = "";
+  if (isMMA) {
+    tip = "Soir MMA : pas de course aujourd'hui. Hydrate-toi bien dans la journée, et prévois un dîner rapide en rentrant (~21h15) : omelette + légumes + pain, ou wok avec restes du midi.";
+  } else if (isLongRun) {
+    tip = "Sortie longue : petit-déj 2h avant (porridge + banane + miel + café). Pendant : eau + 1 energy ball toutes les 30-45 min après 1h15. Smoothie de récup dans les 30 min du retour.";
+  } else if (isRest) {
+    tip = "Repos = récupération active. Profites-en pour : préparer les repas de la semaine (batch cooking), faire la routine d'étirements 10 min, dormir un peu plus.";
+  } else if (session && session.t.includes("Fractionné")) {
+    tip = "Séance qualité : collation à 16h-16h10 (banane + 1-2 dattes ou pain + miel). Échauffement 15 min avant la séance. Étirements doux après.";
+  } else {
+    tip = "Footing facile : sors juste après le boulot vers 16h30. Allure conversationnelle, conserve l'effort. Renfo bas du corps de 15-20 min à la fin.";
+  }
+  html += `<div class="card" style="background:linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 100%);border-color:#FDE68A;">
+    <div class="card-title" style="color:#92400E;">💡 Conseil du jour</div>
+    <p style="font-size:14px;line-height:1.5;color:#451A03;">${tip}</p>
+  </div>`;
+  
+  document.getElementById('tab-today').innerHTML = html;
+}
+
+function toggleSession(wi, dayIdx) {
+  const k = `${wi}_${dayIdx}`;
+  if (data.completed[k]) delete data.completed[k];
+  else data.completed[k] = true;
+  saveData(data);
+  renderToday();
+  renderPlan();
+}
+
+// =============== TAB: PLAN ===============
+let currentPhaseFilter = null;
+let openWeeks = new Set();
+
+function renderPlan() {
+  let html = '';
+  
+  // Auto-open current week on first render
+  const wi = getCurrentWeekIndex();
+  if (wi >= 0 && wi < 22 && openWeeks.size === 0) openWeeks.add(wi);
+  
+  // Phase tabs
+  html += `<div class="phase-tabs">
+    <button class="phase-tab ${currentPhaseFilter === null ? 'active' : ''}" onclick="setPhaseFilter(null)">Tout</button>`;
+  PHASES.forEach(p => {
+    html += `<button class="phase-tab ${currentPhaseFilter === p.n ? 'active' : ''}" onclick="setPhaseFilter(${p.n})">Phase ${p.n}</button>`;
+  });
+  html += `</div>`;
+  
+  // Phase overview if filter active
+  if (currentPhaseFilter !== null) {
+    const p = PHASES[currentPhaseFilter - 1];
+    html += `<div class="phase-overview">
+      <div style="font-size:11px;font-weight:700;color:#92400E;text-transform:uppercase;letter-spacing:0.06em;">Phase ${p.n}</div>
+      <div style="font-size:17px;font-weight:700;margin:2px 0;">${p.name}</div>
+      <div style="font-size:13px;color:#92400E;"><strong>${p.dates}</strong> · ${p.obj} · ${p.vol}</div>
+    </div>`;
+  }
+  
+  // Weeks
+  WEEKS.forEach((w, i) => {
+    if (currentPhaseFilter !== null && w.phase !== currentPhaseFilter) return;
+    
+    const isCurrent = i === wi;
+    const isOpen = openWeeks.has(i);
+    const completedCount = w.sessions.filter((_, dIdx) => data.completed[`${i}_${dIdx}`]).length;
+    
+    let badges = '';
+    if (w.decharge) badges += `<span class="badge muted">Décharge</span> `;
+    if (w.race) badges += `<span class="badge accent">Semaine course</span> `;
+    if (isCurrent) badges += `<span class="badge success">En cours</span> `;
+    
+    html += `<div class="week-card ${isOpen ? 'open' : ''} ${isCurrent ? 'current' : ''}">
+      <div class="week-header" onclick="toggleWeek(${i})">
+        <div class="week-header-left">
+          <div class="week-num">Semaine ${w.n} · Phase ${w.phase}</div>
+          <div class="week-title">${w.dates} ${badges}</div>
+          <div class="week-meta">${w.total} km de course</div>
+        </div>
+        <div class="week-progress">${completedCount}/${w.sessions.length}</div>
+        <div class="week-chevron">▼</div>
+      </div>
+      <div class="week-body">`;
+    
+    w.sessions.forEach((s, dIdx) => {
+      const isDone = data.completed[`${i}_${dIdx}`];
+      const cls = s.mma ? 'mma' : s.rest ? 'rest' : '';
+      html += `<div class="session-item ${cls}">
+        <div class="session-checkbox ${isDone ? 'checked' : ''}" onclick="toggleSession(${i}, ${dIdx})"></div>
+        <div class="session-day">${s.d}</div>
+        <div class="session-content">
+          <div class="session-type-text">${s.t}</div>
+          <div class="session-detail-text">${s.x}</div>
+        </div>
+      </div>`;
+    });
+    
+    html += `</div></div>`;
+  });
+  
+  document.getElementById('tab-plan').innerHTML = html;
+}
+
+function setPhaseFilter(p) {
+  currentPhaseFilter = p;
+  renderPlan();
+}
+
+function toggleWeek(i) {
+  if (openWeeks.has(i)) openWeeks.delete(i);
+  else openWeeks.add(i);
+  renderPlan();
+}
+
+// =============== TAB: NUTRITION ===============
+let recipeFilter = "all";
+
+function renderNutrition() {
+  let html = '';
+  
+  // Macros principaux
+  html += `<div class="card">
+    <div class="card-title">⚡ Calcul nutritionnel</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Pour 73 kg, objectif -6 kg sur 14 semaines</p>
+    <div class="kcal-grid">
+      <div class="kcal-box"><div class="label">BMR</div><div class="value">1630</div></div>
+      <div class="kcal-box"><div class="label">TDEE</div><div class="value">2525</div></div>
+      <div class="kcal-box"><div class="label">Déficit</div><div class="value">−500</div></div>
+      <div class="kcal-box highlight"><div class="label">Cible</div><div class="value">2000</div></div>
+    </div>
+  </div>`;
+  
+  // Macros
+  html += `<div class="card">
+    <h2>Répartition macros (base 2000 kcal)</h2>
+    <div class="macro-row">
+      <div class="macro-box p"><div class="name">Protéines</div><div class="num">150g</div></div>
+      <div class="macro-box g"><div class="name">Glucides</div><div class="num">220g</div></div>
+      <div class="macro-box l"><div class="name">Lipides</div><div class="num">65g</div></div>
+    </div>
+    <h3 style="margin-top:16px;font-size:14px;">Modulation selon la journée</h3>
+    <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+      <tr style="background:#F4F4F5;font-weight:600;">
+        <td style="padding:8px;">Type</td>
+        <td style="padding:8px;text-align:right;">Kcal</td>
+      </tr>
+      <tr><td style="padding:6px 8px;">Repos / dimanche</td><td style="padding:6px 8px;text-align:right;">1800</td></tr>
+      <tr style="background:#FAFAF9;"><td style="padding:6px 8px;">Course + MMA</td><td style="padding:6px 8px;text-align:right;">2000</td></tr>
+      <tr><td style="padding:6px 8px;">Séance qualité / longue</td><td style="padding:6px 8px;text-align:right;">2300-2400</td></tr>
+      <tr style="background:#FAFAF9;"><td style="padding:6px 8px;">Veille de sortie longue</td><td style="padding:6px 8px;text-align:right;">2200</td></tr>
+    </table>
+  </div>`;
+  
+  // Règles
+  html += `<div class="card">
+    <div class="card-title">🎯 Règles simples</div>
+    <ul style="padding-left:20px;font-size:14px;line-height:1.6;">
+      <li><strong>Protéines :</strong> 2 g/kg = 145-150 g/jour. Réparties sur 3-4 repas</li>
+      <li><strong>Glucides :</strong> autour des séances (avant et juste après)</li>
+      <li><strong>Lipides :</strong> huile d'olive, avocat, noix (sauf amandes), beurre de cacahuète, jaunes d'œufs</li>
+      <li><strong>Légumes :</strong> à chaque repas du midi et du soir</li>
+      <li><strong>Hydratation :</strong> 2 L/jour minimum + 500-750 ml/h d'effort</li>
+      <li><strong>Alcool :</strong> max 1-2 verres/semaine pendant la prépa</li>
+    </ul>
+  </div>`;
+  
+  // Astuces gain de temps
+  html += `<div class="card" style="background:linear-gradient(135deg,#ECFDF5 0%,#D1FAE5 100%);border-color:#A7F3D0;">
+    <div class="card-title" style="color:#065F46;">🌙 Cuisiner le soir pour deux repas</div>
+    <p style="font-size:14px;line-height:1.55;color:#064E3B;margin-bottom:10px;">L'approche principale : tu cuisines le soir, en doublant les portions. La moitié devient ta gamelle du midi du lendemain. Une cuisson, deux repas, zéro réflexion le matin.</p>
+    <div style="font-weight:600;font-size:14px;color:#065F46;margin-top:12px;margin-bottom:6px;">Recettes "double portion" idéales :</div>
+    <ul style="padding-left:20px;font-size:14px;line-height:1.55;color:#064E3B;">
+      <li>Soupe de lentilles corail (recette 21)</li>
+      <li>Boulettes de bœuf sauce tomate (recette 23)</li>
+      <li>Spaghetti bolognaise (recette 5) — fais 2 portions de sauce, cuis les pâtes au dernier moment</li>
+      <li>Dahl de lentilles corail (recette 12)</li>
+      <li>Curry tofu (recette 11), wok poulet (recette 9), bœuf-courgettes (recette 10)</li>
+      <li>Poulet rôti au four (recette 24) — double les légumes, top en salade froide le lendemain</li>
+    </ul>
+    <div style="font-weight:600;font-size:14px;color:#065F46;margin-top:14px;margin-bottom:6px;">Pour le petit-déj (5 min le soir d'avant) :</div>
+    <ul style="padding-left:20px;font-size:14px;line-height:1.55;color:#064E3B;">
+      <li>Overnight oats : prépare un bocal au moment de te coucher, c'est prêt au réveil</li>
+      <li>Smoothie : pré-mesure les ingrédients secs dans un sachet ou un bol couvert</li>
+      <li>Œufs durs : cuis-en 4 d'un coup, ils tiennent 5 jours au frigo</li>
+    </ul>
+    <p style="font-size:13px;color:#065F46;margin-top:10px;font-style:italic;">Avec cette logique, tu n'as quasi rien à préparer le matin et tu manges propre toute la semaine.</p>
+  </div>`;
+  
+  // Plan de la semaine
+  html += `<div class="card">
+    <div class="card-title">📅 Plan de la semaine</div>`;
+  MEAL_PLAN.forEach(m => {
+    html += `<div class="meal-day">
+      <div class="meal-day-name">${m.day} ${m.tag ? `<span class="tag">${m.tag}</span>` : ''}</div>
+      <div class="meal-row"><span class="meal-label">P-déj</span>${m.pd}</div>
+      <div class="meal-row"><span class="meal-label">Déj</span>${m.dj}</div>
+      <div class="meal-row"><span class="meal-label">Coll</span>${m.coll}</div>
+      <div class="meal-row"><span class="meal-label">Dîner</span>${m.din}</div>
+    </div>`;
+  });
+  html += `</div>`;
+  
+  // Recipes
+  html += `<div class="card">
+    <div class="card-title">👨‍🍳 Recettes (${RECIPES.length})</div>
+    <div class="recipe-filter">
+      <button class="${recipeFilter === 'all' ? 'active' : ''}" onclick="setRecipeFilter('all')">Tout</button>
+      <button class="${recipeFilter === 'petit-dej' ? 'active' : ''}" onclick="setRecipeFilter('petit-dej')">Petit-déj</button>
+      <button class="${recipeFilter === 'dejeuner' ? 'active' : ''}" onclick="setRecipeFilter('dejeuner')">Déjeuner</button>
+      <button class="${recipeFilter === 'diner' ? 'active' : ''}" onclick="setRecipeFilter('diner')">Dîner</button>
+      <button class="${recipeFilter === 'snack' ? 'active' : ''}" onclick="setRecipeFilter('snack')">Snack/Trail</button>
+    </div>
+    <div class="recipe-grid">`;
+  
+  const filtered = recipeFilter === 'all' ? RECIPES : RECIPES.filter(r => r.cat === recipeFilter);
+  filtered.forEach(r => {
+    html += `<div class="recipe-card" onclick="showRecipe(${r.id})">
+      <div class="recipe-emoji">${r.emoji}</div>
+      <div class="recipe-name">${r.name}</div>
+      <div class="recipe-kcal">~${r.kcal} kcal · P${r.p} G${r.g} L${r.l}</div>
+    </div>`;
+  });
+  
+  html += `</div></div>`;
+  
+  document.getElementById('tab-nutrition').innerHTML = html;
+}
+
+function setRecipeFilter(f) {
+  recipeFilter = f;
+  renderNutrition();
+}
+
+function showRecipe(id) {
+  const r = RECIPES.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('modal-emoji').textContent = r.emoji;
+  document.getElementById('modal-title').textContent = r.name;
+  document.getElementById('modal-subtitle').textContent = `~${r.kcal} kcal · Protéines ${r.p}g · Glucides ${r.g}g · Lipides ${r.l}g`;
+  document.getElementById('modal-body').innerHTML = `
+    <h3>Ingrédients</h3>
+    <ul>${r.ing.map(i => `<li>${i}</li>`).join('')}</ul>
+    <h3>Préparation</h3>
+    <ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+  `;
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+// =============== TAB: TRACKING ===============
+function renderTracking() {
+  let html = '';
+  
+  // POIDS
+  html += `<div class="card">
+    <h2>⚖️ Poids</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Pèse-toi 1× par semaine, le lundi matin à jeun</p>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Date</label>
+        <input type="date" id="weight-date" value="${new Date().toISOString().split('T')[0]}">
+      </div>
+      <div class="input-group">
+        <label>Poids (kg)</label>
+        <input type="number" id="weight-val" step="0.1" placeholder="72.5" inputmode="decimal">
+      </div>
+    </div>
+    <button class="btn full" onclick="addWeight()">Enregistrer</button>
+  </div>`;
+  
+  // Chart poids
+  if (data.weight.length > 0) {
+    const sorted = [...data.weight].sort((a,b) => new Date(a.date) - new Date(b.date));
+    const first = sorted[0].weight;
+    const last = sorted[sorted.length - 1].weight;
+    const target = 67;
+    const lost = (first - last).toFixed(1);
+    const toGo = (last - target).toFixed(1);
+    
+    html += `<div class="weight-chart-container">
+      <h3>Évolution</h3>
+      ${renderWeightChart(sorted)}
+      <div class="chart-stats">
+        <div class="chart-stat">
+          <div class="label">Initial</div>
+          <div class="value">${first} kg</div>
+        </div>
+        <div class="chart-stat">
+          <div class="label">Actuel</div>
+          <div class="value">${last} kg</div>
+        </div>
+        <div class="chart-stat">
+          <div class="label">Objectif</div>
+          <div class="value">${target} kg</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px;color:var(--muted);">
+        <span style="color:var(--success);font-weight:600;">−${lost} kg perdus</span> · 
+        <span style="color:var(--accent);font-weight:600;">${toGo} kg à perdre</span>
+      </div>
+    </div>`;
+    
+    // Liste
+    html += `<div class="card"><div class="card-title">Historique</div>`;
+    [...sorted].reverse().forEach(w => {
+      html += `<div class="log-item">
+        <div class="info">
+          <div class="main">${w.weight} kg</div>
+          <div class="date">${fmtDate(w.date)}</div>
+        </div>
+        <button class="del-btn" onclick="delWeight('${w.id}')">Suppr.</button>
+      </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="empty-state"><div class="icon">⚖️</div><p>Aucune pesée enregistrée</p></div>`;
+  }
+  
+  // SUIVI SEMAINE
+  html += `<div class="card">
+    <h2>📊 Suivi hebdo</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Note ton ressenti et tes km à la fin de chaque semaine</p>
+    <div class="input-group">
+      <label>Semaine</label>
+      <select id="week-select">`;
+  for (let i = 0; i < 22; i++) {
+    html += `<option value="${i}">S${i+1} - ${WEEKS[i].dates}</option>`;
+  }
+  html += `</select>
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Km courus</label>
+        <input type="number" id="week-km" step="0.1" placeholder="35" inputmode="decimal">
+      </div>
+      <div class="input-group">
+        <label>Ressenti /10</label>
+        <input type="number" id="week-ressenti" min="1" max="10" placeholder="7" inputmode="numeric">
+      </div>
+    </div>
+    <div class="input-group">
+      <label>Notes (optionnel)</label>
+      <textarea id="week-notes" rows="2" placeholder="Comment s'est passée la semaine ?"></textarea>
+    </div>
+    <button class="btn full" onclick="addWeekly()">Enregistrer la semaine</button>
+  </div>`;
+  
+  if (data.weekly.length > 0) {
+    html += `<div class="card"><div class="card-title">Historique des semaines</div>`;
+    [...data.weekly].sort((a,b) => b.week - a.week).forEach(w => {
+      html += `<div class="log-item">
+        <div class="info">
+          <div class="main">S${w.week + 1} · ${w.km} km · ${w.ressenti}/10</div>
+          <div class="date">${WEEKS[w.week].dates}</div>
+          ${w.notes ? `<div class="secondary">${w.notes}</div>` : ''}
+        </div>
+        <button class="del-btn" onclick="delWeekly('${w.id}')">Suppr.</button>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  
+  // Export / Reset
+  html += `<div class="card" style="background:#FEF3C7;border-color:#FDE68A;">
+    <div class="card-title" style="color:#92400E;">⚙️ Données</div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn secondary small" style="flex:1;" onclick="exportData()">Exporter (JSON)</button>
+      <button class="btn secondary small" style="flex:1;" onclick="resetData()">Tout effacer</button>
+    </div>
+  </div>`;
+  
+  document.getElementById('tab-tracking').innerHTML = html;
+}
+
+function renderWeightChart(sorted) {
+  const w = 320, h = 160, pad = 30;
+  const weights = sorted.map(x => x.weight);
+  const min = Math.min(67, ...weights) - 0.5;
+  const max = Math.max(73, ...weights) + 0.5;
+  const range = max - min;
+  
+  const dates = sorted.map(x => new Date(x.date).getTime());
+  const startMs = START_DATE.getTime();
+  const endMs = RACE_DATE.getTime();
+  const fullRange = endMs - startMs;
+  
+  const pts = sorted.map(p => {
+    const t = (new Date(p.date).getTime() - startMs) / fullRange;
+    const x = pad + t * (w - 2*pad);
+    const y = pad + (1 - (p.weight - min) / range) * (h - 2*pad);
+    return { x, y, w: p.weight };
+  });
+  
+  // Target line (67 kg)
+  const targetY = pad + (1 - (67 - min) / range) * (h - 2*pad);
+  
+  let path = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+  let dots = pts.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="#0F766E"/>`).join('');
+  
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
+    <line x1="${pad}" y1="${targetY}" x2="${w-pad}" y2="${targetY}" stroke="#EA580C" stroke-width="1" stroke-dasharray="4 4" opacity="0.7"/>
+    <text x="${w-pad+2}" y="${targetY+3}" font-size="10" fill="#EA580C" text-anchor="end" style="font-weight:600;">67kg</text>
+    ${pts.length > 1 ? `<path d="${path}" fill="none" stroke="#0F766E" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>` : ''}
+    ${dots}
+    <text x="${pad-4}" y="${pad+4}" font-size="9" fill="#71717A" text-anchor="end">${max.toFixed(1)}</text>
+    <text x="${pad-4}" y="${h-pad+4}" font-size="9" fill="#71717A" text-anchor="end">${min.toFixed(1)}</text>
+    <text x="${pad}" y="${h-8}" font-size="9" fill="#71717A">11 mai</text>
+    <text x="${w-pad}" y="${h-8}" font-size="9" fill="#71717A" text-anchor="end">10 oct</text>
+  </svg>`;
+}
+
+function addWeight() {
+  const date = document.getElementById('weight-date').value;
+  const val = parseFloat(document.getElementById('weight-val').value);
+  if (!date || !val) { alert("Date et poids requis"); return; }
+  data.weight.push({ id: Date.now().toString(), date, weight: val });
+  saveData(data);
+  renderTracking();
+}
+
+function delWeight(id) {
+  data.weight = data.weight.filter(w => w.id !== id);
+  saveData(data);
+  renderTracking();
+}
+
+function addWeekly() {
+  const week = parseInt(document.getElementById('week-select').value);
+  const km = parseFloat(document.getElementById('week-km').value);
+  const ressenti = parseInt(document.getElementById('week-ressenti').value);
+  const notes = document.getElementById('week-notes').value;
+  if (isNaN(week) || isNaN(km) || isNaN(ressenti)) { alert("Km et ressenti requis"); return; }
+  // remplace si existe déjà
+  data.weekly = data.weekly.filter(w => w.week !== week);
+  data.weekly.push({ id: Date.now().toString(), week, km, ressenti, notes });
+  saveData(data);
+  document.getElementById('week-km').value = '';
+  document.getElementById('week-ressenti').value = '';
+  document.getElementById('week-notes').value = '';
+  renderTracking();
+}
+
+function delWeekly(id) {
+  data.weekly = data.weekly.filter(w => w.id !== id);
+  saveData(data);
+  renderTracking();
+}
+
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `trail2026-export-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function resetData() {
+  if (!confirm("Effacer toutes les données (poids, séances cochées, suivi) ? Cette action est irréversible.")) return;
+  localStorage.removeItem(KEY);
+  data = { completed:{}, weight:[], weekly:[], equipment:{} };
+  saveData(data);
+  renderToday();
+  renderPlan();
+  renderTracking();
+}
+
+// =============== TAB: INFO ===============
+function renderInfo() {
+  let html = '';
+  
+  // Nav cards
+  html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+    <button class="card" style="text-align:left;padding:14px;cursor:pointer;" onclick="showInfoModal('trail')">
+      <div style="font-size:28px;">🥤</div>
+      <div style="font-weight:600;font-size:14px;margin-top:4px;">Nutrition trail</div>
+      <div style="font-size:12px;color:var(--muted);">Avant/pendant/après</div>
+    </button>
+    <button class="card" style="text-align:left;padding:14px;cursor:pointer;" onclick="showInfoModal('hydratation')">
+      <div style="font-size:28px;">💧</div>
+      <div style="font-weight:600;font-size:14px;margin-top:4px;">Hydratation</div>
+      <div style="font-size:12px;color:var(--muted);">& électrolytes</div>
+    </button>
+    <button class="card" style="text-align:left;padding:14px;cursor:pointer;" onclick="showInfoModal('blessures')">
+      <div style="font-size:28px;">🩹</div>
+      <div style="font-weight:600;font-size:14px;margin-top:4px;">Blessures</div>
+      <div style="font-size:12px;color:var(--muted);">Prévention & récup</div>
+    </button>
+    <button class="card" style="text-align:left;padding:14px;cursor:pointer;" onclick="showInfoModal('course')">
+      <div style="font-size:28px;">🏁</div>
+      <div style="font-weight:600;font-size:14px;margin-top:4px;">Plan de course</div>
+      <div style="font-size:12px;color:var(--muted);">Stratégie 30 km</div>
+    </button>
+  </div>`;
+  
+  // Renfo
+  html += `<div class="info-card">
+    <h3>💪 Renforcement (poids du corps)</h3>
+    <p style="margin-bottom:10px;font-size:13px;color:var(--muted);">2× par semaine, intégré aux jours de course</p>
+    <div class="strong-text" style="margin-top:8px;font-size:14px;">Séance A — Bas du corps (lundi, 20 min)</div>
+    <ul>
+      <li>Échauffement 3 min</li>
+      <li>Squats : 3 × 15</li>
+      <li>Fentes avant : 3 × 12 par jambe</li>
+      <li>Fentes bulgares : 3 × 10 par jambe</li>
+      <li>Pont fessier 1 jambe : 3 × 12 par jambe</li>
+      <li>Mollets sur 1 jambe : 3 × 20 par jambe</li>
+      <li>Gainage planche : 3 × 45 s</li>
+    </ul>
+    <div class="strong-text" style="margin-top:12px;font-size:14px;">Séance B — Stabilité & core (jeudi, 20 min)</div>
+    <ul>
+      <li>Échauffement 3 min</li>
+      <li>Step-ups : 3 × 12 par jambe</li>
+      <li>Squats 1 jambe (assist) : 3 × 6 par jambe</li>
+      <li>Pompes : 3 × max</li>
+      <li>Side plank : 3 × 30 s par côté</li>
+      <li>Dead bug : 3 × 10 par côté</li>
+      <li>Superman : 3 × 12</li>
+      <li>Mobilité 3 min</li>
+    </ul>
+  </div>`;
+  
+  // Matériel
+  html += `<div class="info-card">
+    <h3>🎒 Matériel trail 30 km</h3>`;
+  EQUIPMENT.forEach(g => {
+    html += `<div style="margin-top:14px;">
+      <div class="strong-text" style="font-size:14px;margin-bottom:6px;">${g.cat}</div>`;
+    g.items.forEach((item, i) => {
+      const k = `${g.cat}_${i}`;
+      const checked = data.equipment[k];
+      html += `<div class="checklist-item ${checked ? 'checked' : ''}" onclick="toggleEquip('${k}')">
+        <div class="checklist-checkbox"></div>
+        <div class="checklist-text">${item}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  html += `</div>`;
+  
+  // Planning rappel
+  html += `<div class="info-card">
+    <h3>⏰ Planning hebdo type</h3>
+    <ul>
+      <li><strong>Lun :</strong> Course 16h30-17h30 + renfo A</li>
+      <li><strong>Mar :</strong> MMA 19h-20h30 (pas de course)</li>
+      <li><strong>Mer :</strong> Séance qualité 16h30-18h</li>
+      <li><strong>Jeu :</strong> Course 16h30-17h30 + renfo B</li>
+      <li><strong>Ven :</strong> MMA 19h-20h30 (pas de course)</li>
+      <li><strong>Sam :</strong> Sortie longue 8h-11h</li>
+      <li><strong>Dim :</strong> Repos OU footing récup, batch cooking</li>
+    </ul>
+    <p style="margin-top:10px;font-size:13px;color:var(--muted);"><strong>Astuce :</strong> collation à 16h-16h10 avant la course (banane + dattes ou pain + miel). Shake de récup dans les 30 min après.</p>
+  </div>`;
+  
+  document.getElementById('tab-info').innerHTML = html;
+}
+
+function showInfoModal(key) {
+  const info = INFOS[key];
+  if (!info) return;
+  document.getElementById('modal-emoji').textContent = info.title.split(' ')[0];
+  document.getElementById('modal-title').textContent = info.title.substring(2).trim();
+  document.getElementById('modal-subtitle').textContent = '';
+  let html = '';
+  info.sections.forEach(s => {
+    html += `<h3>${s.h}</h3><ul>${s.items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+  });
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('show');
+}
+
+function toggleEquip(k) {
+  if (data.equipment[k]) delete data.equipment[k];
+  else data.equipment[k] = true;
+  saveData(data);
+  renderInfo();
+}
+
+// =============== TABS NAV ===============
+document.querySelectorAll('.tabbar-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tabbar-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target.id === 'modal') closeModal();
+});
+
+// =============== INIT ===============
+renderCountdown();
+renderToday();
+renderPlan();
+renderNutrition();
+renderTracking();
+renderInfo();
+</script>
+</body>
+</html>
